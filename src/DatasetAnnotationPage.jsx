@@ -84,7 +84,10 @@ export default function DatasetAnnotationPage() {
 
       const savePromise = addDoc(collection(db, "translations"), payload);
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error("Save request timed out. Check network and Firestore rules.")), SAVE_TIMEOUT_MS);
+        setTimeout(
+          () => reject(new Error("Save request timed out. Check network and Firestore rules.")),
+          SAVE_TIMEOUT_MS,
+        );
       });
 
       await Promise.race([savePromise, timeoutPromise]);
@@ -272,7 +275,9 @@ export default function DatasetAnnotationPage() {
               <article
                 key={entry.id}
                 className={`rounded-xl border bg-white p-4 ${
-                  isDone ? "border-emerald-200 border-l-4 border-l-emerald-400" : "border-slate-200 border-l-4 border-l-violet-300"
+                  isDone
+                    ? "border-emerald-200 border-l-4 border-l-emerald-400"
+                    : "border-slate-200 border-l-4 border-l-violet-300"
                 }`}
               >
                 <div className="mb-3 flex items-center justify-between gap-2">
@@ -280,9 +285,7 @@ export default function DatasetAnnotationPage() {
                   <div className="flex items-center gap-2">
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                        isDone
-                          ? "bg-emerald-100 text-emerald-800"
-                          : "bg-amber-100 text-amber-800"
+                        isDone ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
                       }`}
                     >
                       {isDone ? "Complete" : "Pending"}

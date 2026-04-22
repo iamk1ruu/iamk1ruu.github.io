@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:dataset": "vite build",
+    "build:validation": "vite build --config vite.validation.config.js",
     "preview": "vite preview"
   },
   "dependencies": {
