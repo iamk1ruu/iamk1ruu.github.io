@@ -343,6 +343,10 @@ export default function ValidatorDashboardPage() {
             </span>
             .
           </p>
+          <p className="mt-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <span className="font-semibold">(!) Note:</span> Input and Output text is editable. Only
+            deny when the entry is irrelevant.
+          </p>
         </header>
 
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -465,7 +469,7 @@ export default function ValidatorDashboardPage() {
                       Deny
                     </button>
                     <p className="text-xs text-slate-500">
-                      Auto-advances through the cached {PAGE_SIZE} item(s).
+                      Moves automatically to the next item (up to {PAGE_SIZE} items loaded per batch).
                     </p>
                   </div>
                 </>
@@ -479,7 +483,7 @@ export default function ValidatorDashboardPage() {
                     onChange={(e) => setMarkOriginalsProcessed(e.target.checked)}
                     className="h-4 w-4 rounded border-blue-300 text-blue-700"
                   />
-                  Mark original Firestore docs as processed
+                  (To validators, keep this checked) Mark original Firestore docs as processed
                 </label>
                 <button
                   type="button"
