@@ -69,6 +69,12 @@ function normalizeTranslationDocs(docs) {
   return out;
 }
 
+function buildSourceKey({ sourceDocId, sourceEntryId, sourceEntryIndex }) {
+  const entryId = sourceEntryId == null ? "null" : String(sourceEntryId);
+  const entryIndex = sourceEntryIndex == null ? "null" : String(sourceEntryIndex);
+  return `${sourceDocId}::${entryId}::${entryIndex}`;
+}
+
 function nextPendingIndex(items, startIndex) {
   for (let i = Math.max(0, startIndex); i < items.length; i += 1) {
     if (items[i].decision === "pending") return i;
@@ -117,6 +123,27 @@ export default function ValidatorDashboardPage() {
         setLoadError("");
 
         const translationsRef = collection(sourceDb, "translations");
+        const validatedRef = collection(
+          validationDb,
+          "validations",
+          VALIDATION_PARENT_DOC_ID,
+          "validated_translations",
+        );
+
+        // Build a quick lookup of source entries already validated in DB.
+        const validatedSnap = await getDocs(validatedRef);
+        const alreadyValidatedSourceKeys = new Set(
+          validatedSnap.docs
+            .map((docSnap) => docSnap.data()?.source)
+            .filter((source) => source?.collection === "translations" && source?.docId)
+            .map((source) =>
+              buildSourceKey({
+                sourceDocId: source.docId,
+                sourceEntryId: source.entryId ?? null,
+                sourceEntryIndex: source.entryIndex ?? null,
+              }),
+            ),
+        );
 
         // Prefer explicit "unvalidated" query when possible.
         let snap;
@@ -136,6 +163,7 @@ export default function ValidatorDashboardPage() {
         const normalized = normalizeTranslationDocs(snap.docs)
           .filter((entry) => entry.input.trim() || entry.output.trim())
           .filter((entry) => !entry.processed)
+          .filter((entry) => !alreadyValidatedSourceKeys.has(buildSourceKey(entry)))
           .slice(0, PAGE_SIZE)
           .map((entry) => ({
             ...entry,
