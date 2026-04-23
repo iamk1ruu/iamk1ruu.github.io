@@ -39,7 +39,7 @@ export default function LetterHelperPage() {
 
   const generatedPath = useMemo(() => `/letter/${cleanLetterName}?${query}`, [cleanLetterName, query]);
   const publishedPath = useMemo(
-    () => (publishedDocId ? `/letter/${publishedDocId}` : ""),
+    () => (publishedDocId ? `/letter/?id=${encodeURIComponent(publishedDocId)}` : ""),
     [publishedDocId],
   );
   const generatedAbsoluteUrl = useMemo(() => {
@@ -211,7 +211,7 @@ export default function LetterHelperPage() {
             Live URL (Firestore document ID)
           </p>
           <p className="mt-2 break-all rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-800">
-            {publishedAbsoluteUrl || "Publish first to generate /letter/<documentId>."}
+            {publishedAbsoluteUrl || "Publish first to generate /letter/?id=<documentId>."}
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <button
