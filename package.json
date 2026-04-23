@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:letter": "vite --config vite.letter.config.js",
     "build": "vite build",
     "build:dataset": "vite build",
     "build:validation": "vite build --config vite.validation.config.js",
+    "build:forum": "vite build --config vite.forum.config.js",
+    "build:letter": "vite build --config vite.letter.config.js",
+    "build:all": "npm run build:dataset && npm run build:validation && npm run build:forum && npm run build:letter",
     "preview": "vite preview"
   },
   "dependencies": {

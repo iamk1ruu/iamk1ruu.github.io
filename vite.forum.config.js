@@ -1,0 +1,16 @@
+import { resolve } from "node:path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  base: "/forum/",
+  plugins: [react(), tailwindcss()],
+  build: {
+    outDir: "forum",
+    emptyOutDir: true,
+    rollupOptions: {
+      input: resolve(__dirname, "index.forum.html"),
+    },
+  },
+});
