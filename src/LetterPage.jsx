@@ -4,6 +4,8 @@ import { db } from "./lib/firebase";
 
 function getLetterSlug() {
   if (typeof window === "undefined") return "my-love";
+  const idParam = new URLSearchParams(window.location.search).get("id");
+  if (idParam) return idParam;
   const parts = window.location.pathname.split("/").filter(Boolean);
   const letterIndex = parts.indexOf("letter");
   if (letterIndex === -1) return "my-love";
